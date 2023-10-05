@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   )
 ```
 
-\section{Problem$1$}
+\section{Problem $1$}
 
 Compare the classification performance of linear regression and k-nearest neighbor classification on the \texttt{zipcode} data. In particular, consider only the 2’s and 3’s, and$ k=1,3, 5, 7, \text{ and } 15$. Write your own function for the $k$-nearest neighbor classification. Show both the training and test error for each choice of $k$. The zipcode data are available from the book website: \url{https://hastie.su.domains/ElemStatLearn/data.html}
 
@@ -68,7 +68,7 @@ knn_own = function(trainX, testX, trainY, k){
 We start by loading training data. Look at the columns which correspond only to $2$ or $3$ --- these are the features. We extract out the $3$'s which is the output we want:
 
 ```{r, attr.source='.numberLines startFrom="35"'}
-X <- as.matrix(read.table(gzfile("/Users/nm/Documents/GitHub/Data Mining/Assign1/zip.train.gz")))
+X <- as.matrix(read.table(gzfile("./zip.train.gz")))
 y2or3 <- which(X[, 1] == 2 | X[, 1] == 3)
 train.X <- X[y2or3, -1]
 train.Y <- X[y2or3, 1] == 3
@@ -76,7 +76,7 @@ train.Y <- X[y2or3, 1] == 3
 
 We do the same thing as above for test data:
 ```{r, attr.source='.numberLines startFrom="39"'}
-X <- as.matrix(read.table(gzfile("/Users/nm/Documents/GitHub/Data Mining/Assign1/zip.test.gz")))
+X <- as.matrix(read.table(gzfile("./zip.test.gz")))
 y2or3 <- which(X[, 1] == 2 | X[, 1] == 3)
 test.X <- X[y2or3, -1]
 test.Y <- X[y2or3, 1] == 3
@@ -101,12 +101,12 @@ errortrain.lr <- mean(prediction_train != train.Y)*100
 ```
 
 \subsection{$k$-Nearest Neighbours}
-We want to run kNN for $k\in\{1,2,\cdots,20\}$.
+We want to run $k$NN for $k\in\{1,2,\cdots,20\}$.
 ```{r, attr.source='.numberLines startFrom=51'}
 k <- 1:20
 ```
 
-First we start with the inbuilt kNN. We basically do the same as linear regression - fir the model based on training data, test it on the test data and train data to get the testing error and training error respectively.
+First we start with the inbuilt $k$NN. We basically do the same as linear regression - fir the model based on training data, test it on the test data and train data to get the testing error and training error respectively.
 ```{r, attr.source='.numberLines startFrom=49'}
 library(class)
 errortest.knn <- numeric(length(k))
@@ -119,7 +119,7 @@ for (i in 1:length(k)) {
 }
 ```
 
-Next we execute the kNN function that I wrote (including error calculation).
+Next we execute the $k$NN function that I wrote (including error calculation).
 ```{r, attr.source='.numberLines startFrom=58'}
 errortest.knn_own <- numeric(length(k))
 errortrain.knn_own <- numeric(length(k))
@@ -143,7 +143,7 @@ print(error)
 ```
 
 \subsection{Plotting}
-I also plotted the errors for my kNN function, the inbuilt kNN function and the linear regression.
+I also plotted the errors for my $k$NN function, the inbuilt $k$NN function and the linear regression.
 
 Here's the plot for the testing error:
 ```{r, attr.source='.numberLines startFrom=71'}
@@ -167,9 +167,11 @@ legend("bottomright", legend=c("Inbuilt knn", "My knn", "Linear regression"),
        col=c("green", "blue","red"), lty=c(2,2,3), cex=0.8)
 ```
 
+As we can see, the $k$NN classifier produces less errorsome results on the testing dataset as compared to when we fit a linear model. Also, there's small result difference between my function and the inbuilt function, but the overall trend is the same. Additionally, my function performs much slower than the inbuilt function.
+
 \newpage
 
-\section{Problem statement $2$}
+\section{Problem $2$}
 Consider the linear regression model with p parameters, fit by least squares to a set of training data
 $(x_1, y_1),\cdots,(x_N , y_N)$ draw from the population distribution where $x_1 \sim N_p(0, \Sigma)$ and $y_i = x^T_i\beta + \epsilon_i$ with $\epsilon_i \sim N(0, \sigma^2)$. Please use one method to construct confidence sets for $\beta$. Illustrate your method by simulating the data with $N = 100, p = 1, \Sigma = 2$ and $\sigma^2 = 1$. If you have more than one practical methods of constructing confidence sets for $\beta$ and you can illustrate them by your simulations, you will obtain bonus points.
 
@@ -218,4 +220,4 @@ print(paste("Percentage of cases where beta landed in the interval:",
 ```
 
 
-I did this many times with different significance levels $\alpha$'s. Every time, this above ratio was close to $1-\alpha$.
+I did this many times with different significance levels $\alpha$'s. Every time, this above ratio was close to $1-\alpha$. 
