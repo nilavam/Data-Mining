@@ -38,7 +38,7 @@ knn_own = function(trainX, testX, trainY, k){
   return(all_pred)
 }
 
-X <- as.matrix(read.table(gzfile("/Users/nm/Documents/GitHub/Data Mining/Assign1/zip.train.gz")))
+X <- as.matrix(read.table(gzfile("/Users/nm/Documents/GitHub/Data Mining/Assign1/zip.test.gz")))
 y2or3 <- which(X[, 1] == 2 | X[, 1] == 3)
 train.X <- X[y2or3, -1]
 train.Y <- X[y2or3, 1] == 3
@@ -57,7 +57,7 @@ errortest.lr <- mean(prediction_test != test.Y)*100
 errortrain.lr <- mean(prediction_train != train.Y)*100
 
 #using the inbuilt knn function
-k <- 1:20
+k <- 1:10
 library(class)
 errortest.knn <- numeric(length(k))
 errortrain.knn <- numeric(length(k))
@@ -93,6 +93,8 @@ print(error)
 
 y.limit = c(min(c(errortest.knn_own, errortest.knn, errortest.lr)),  
             max(c(errortest.knn_own, errortest.knn,errortest.lr)))
+
+print(y.limit)
 plot(k,errortest.knn, type='o', lty = 2, ylim=y.limit, col="green", ylab="testing error(%)")
 points(k, errortest.knn_own, type="o", lty=2, pch = "*", col="blue")
 abline(h = errortest.lr, col="red", lty = 3)
